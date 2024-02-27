@@ -5,8 +5,14 @@ function Dashboard() {
   return (
     <div className="shadow-md mx-auto bg-background border border-muted rounded w-[1024px] h-[80%]">
       <div className="flex flex-col gap-5">
-        <ButtonGroup />
-        <CardGroup />
+        <header>
+          <ButtonGroup />
+        </header>
+        <main>
+          <section>
+            <CardGroup />
+          </section>
+        </main>
       </div>
     </div>
   );
