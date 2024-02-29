@@ -7,13 +7,26 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
-export default function TablePagination() {
+interface ITablePagination {
+  count: number;
+  currentPage: number;
+  onChangePage: (newPage: number) => void;
+}
+export default function TablePagination({
+  count,
+  currentPage,
+  onChangePage,
+}: ITablePagination) {
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          <PaginationPrevious
+            onClick={(e) => {
+              e.preventDefault();
+              if (currentPage > 1) onChangePage(currentPage - 1);
+            }}
+          />
         </PaginationItem>
         <PaginationItem>
           <PaginationLink href="#">1</PaginationLink>
@@ -30,7 +43,12 @@ export default function TablePagination() {
           <PaginationEllipsis />
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext href="#" />
+          <PaginationNext
+            onClick={(e) => {
+              e.preventDefault();
+              if (currentPage < count) onChangePage(currentPage + 1);
+            }}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

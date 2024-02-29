@@ -10,3 +10,7 @@ export const formatCurrency = (amount: number, currencyCode = "USD") => {
     currency: currencyCode,
   }).format(amount);
 };
+
+export const trimZerosFromCurrency = (currencyString: string) => {
+  return currencyString.replace(/\.00$/, "");
+};

@@ -73,7 +73,7 @@ function HeroChart() {
   }));
 
   if (!isFetched) {
-    return <Skeleton className="h-[360px] w-[100%] rounded-xl" />;
+    return <Skeleton className="h-[420px] w-[100%] rounded-xl" />;
   }
 
   return (

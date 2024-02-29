@@ -1,15 +1,23 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { ReactNode } from "react";
 interface IButtonGroup {
   setActiveTab?: (actitveTab: string) => void;
   data: {
     title: string;
+    icon?: ReactNode;
     value: string;
   }[];
   activeTab?: string;
+  onSortByChange?: (sortBy: string) => void;
 }
-function ButtonGroup({ data, setActiveTab, activeTab }: IButtonGroup) {
+function ButtonGroup({
+  data,
+  setActiveTab,
+  activeTab,
+  onSortByChange,
+}: IButtonGroup) {
   return (
     <div className="rounded  max-w-fit ">
       <div className="space-x-1 bg-muted px-2 py-1 rounded ">
@@ -19,13 +27,17 @@ function ButtonGroup({ data, setActiveTab, activeTab }: IButtonGroup) {
             <Button
               size="sm"
               className={cn(
-                "h-7 bg-muted hover:bg-muted  text-foreground ",
+                "h-7 bg-muted hover:bg-muted    text-foreground ",
                 isActive && " bg-background shadow-sm"
               )}
-              key={option.title}
-              onClick={() => setActiveTab?.(option.value)}
+              key={option.value}
+              onClick={() => {
+                onSortByChange?.(option.value);
+                setActiveTab?.(option.value);
+              }}
             >
               {option.title}
+              {option?.icon ? option.icon : null}
             </Button>
           );
         })}

@@ -5,22 +5,20 @@ import CardGroup from "./overview/CardGroup";
 import HeroChart from "@/components/overview/HeroChart";
 import { CalendarPopover } from "./dashboardHeader/CalendarPopover";
 import { useState } from "react";
-import OrdersTable from "./allOrders/OrdersTable";
-import OrdersFilter from "./allOrders/OrdersFilter";
+import ProjectsTable from "./allOrders/ProjectsTable";
 import BestMonthCard from "./analythics/BestMonthCard";
 import TypeChart from "./analythics/TypeChart";
 import CompareArea from "./analythics/CompareArea";
 import { NewOrderModal } from "./dashboardHeader/NewOrderModal";
-import { useLastYearProjects, useProjects } from "@/lib/actions";
+import { useProjects } from "@/lib/actions";
 import Loader from "./Loader";
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState<string>("overview");
-  const { data, error, isFetched } = useProjects();
-
+  const { data, error, isLoading } = useProjects();
+  console.log(isLoading);
   const projects = data?.data;
   const count = data?.count;
-  console.log(data, error, isFetched);
   const HEADER_BUTTONS = [
     {
       title: "Overwiev",
@@ -36,7 +34,7 @@ function Dashboard() {
     },
   ];
 
-  if (!isFetched) return <Loader />;
+  if (isLoading) return <Loader />;
   return (
     <div className="shadow-md mx-auto bg-background border border-muted rounded  w-[1024px] h-[80%] lg:h-[750px]">
       <div className="flex flex-col gap-4">
@@ -63,8 +61,7 @@ function Dashboard() {
           )}
           {activeTab === "allOrders" && (
             <section>
-              <OrdersFilter />
-              <OrdersTable />
+              <ProjectsTable count={count} />
             </section>
           )}
           {activeTab === "analythics" && (

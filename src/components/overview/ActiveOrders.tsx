@@ -1,4 +1,4 @@
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, trimZerosFromCurrency } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardTitle } from "../ui/card";
 
@@ -18,10 +18,6 @@ interface IActiveOrders {
     | undefined;
 }
 function ActiveOrders({ projects }: IActiveOrders) {
-  console.log(projects);
-  function trimZerosFromCurrency(currencyString: string) {
-    return currencyString.replace(/\.00$/, "");
-  }
   return (
     <div className="w-[29%]">
       <Card className="p-4">
