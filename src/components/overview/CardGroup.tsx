@@ -1,5 +1,3 @@
-"use client";
-
 import { LuBarChart4, LuBriefcase, LuDollarSign } from "react-icons/lu";
 import {
   Card,
@@ -7,26 +5,45 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-
-function CardGroup() {
+} from "../ui/card";
+import { formatCurrency } from "@/lib/utils";
+interface ICardGroup {
+  projects:
+    | {
+        avatar: string;
+        created_at: string;
+        email: string;
+        id: number;
+        name: string;
+        price: number;
+        projectType: string;
+        status: string;
+      }[]
+    | null
+    | undefined;
+  count: number | null | undefined;
+}
+function CardGroup({ projects, count }: ICardGroup) {
+  const activeProjects =
+    projects?.filter((project) => project.status === "active").length ?? 0;
+  const totalEarned = projects?.reduce((acc, curr) => acc + curr.price, 0) ?? 0;
   const CARD_GROUP = [
     {
       title: "Total orders",
-      description: "total",
-      content: "123",
+      description: "since 2k22",
+      content: count,
       icon: <LuBriefcase className="w-6 h-6" />,
     },
     {
       title: "Total earned",
       description: "total",
-      content: "124.281",
+      content: formatCurrency(totalEarned),
       icon: <LuDollarSign className="w-6 h-6" />,
     },
     {
       title: "Active projects",
-      description: "total",
-      content: "442",
+      description: "idk ",
+      content: activeProjects,
       icon: <LuBarChart4 className="w-6 h-6" />,
     },
     {
@@ -41,7 +58,7 @@ function CardGroup() {
     <div className="max-w-[1000px] mx-auto">
       <div className="flex gap-2">
         {CARD_GROUP.map(({ title, description, content, icon }) => (
-          <Card key={title} className="w-[250px]">
+          <Card key={title + description} className="w-[250px]">
             <CardHeader>
               <CardTitle>
                 <div className="flex justify-between">

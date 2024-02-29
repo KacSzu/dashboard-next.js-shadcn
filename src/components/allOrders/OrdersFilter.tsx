@@ -1,4 +1,4 @@
-import ButtonGroup from "./ButtonGroup";
+import ButtonGroup from "../ButtonGroup";
 
 function OrdersFilter() {
   const FILTER_BUTTONS = [

@@ -6,7 +6,7 @@ import {
   Radar,
   RadarChart,
 } from "recharts";
-import { Card, CardTitle } from "./ui/card";
+import { Card, CardTitle } from "../ui/card";
 
 function TypeChart() {
   const data = [

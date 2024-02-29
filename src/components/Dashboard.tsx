@@ -1,17 +1,26 @@
 "use client";
-import ActiveOrders from "./ActiveOrders";
+import ActiveOrders from "./overview/ActiveOrders";
 import ButtonGroup from "./ButtonGroup";
-import CardGroup from "./CardGroup";
-import HeroChart from "@/components/HeroChart";
-import { CalendarPopover } from "./CalendarPopover";
+import CardGroup from "./overview/CardGroup";
+import HeroChart from "@/components/overview/HeroChart";
+import { CalendarPopover } from "./dashboardHeader/CalendarPopover";
 import { useState } from "react";
-import OrdersTable from "./OrdersTable";
-import OrdersFilter from "./OrdersFilter";
-import BestMonthCard from "./BestMonthCard";
-import TypeChart from "./TypeChart";
-import CompareArea from "./CompareArea";
+import OrdersTable from "./allOrders/OrdersTable";
+import OrdersFilter from "./allOrders/OrdersFilter";
+import BestMonthCard from "./analythics/BestMonthCard";
+import TypeChart from "./analythics/TypeChart";
+import CompareArea from "./analythics/CompareArea";
+import { NewOrderModal } from "./dashboardHeader/NewOrderModal";
+import { useLastYearProjects, useProjects } from "@/lib/actions";
+import Loader from "./Loader";
 
 function Dashboard() {
+  const [activeTab, setActiveTab] = useState<string>("overview");
+  const { data, error, isFetched } = useProjects();
+
+  const projects = data?.data;
+  const count = data?.count;
+  console.log(data, error, isFetched);
   const HEADER_BUTTONS = [
     {
       title: "Overwiev",
@@ -27,23 +36,28 @@ function Dashboard() {
     },
   ];
 
-  const [activeTab, setActiveTab] = useState<string>("");
+  if (!isFetched) return <Loader />;
   return (
-    <div className="shadow-md mx-auto bg-background border border-muted rounded w-[1024px] h-[80%]">
+    <div className="shadow-md mx-auto bg-background border border-muted rounded  w-[1024px] h-[80%] lg:h-[750px]">
       <div className="flex flex-col gap-4">
         <header className="mx-[12px] mt-4 flex justify-between">
-          <ButtonGroup data={HEADER_BUTTONS} setActiveTab={setActiveTab} />
+          <ButtonGroup
+            activeTab={activeTab}
+            data={HEADER_BUTTONS}
+            setActiveTab={setActiveTab}
+          />
+          <NewOrderModal />
           <CalendarPopover />
         </header>
         <main>
           {activeTab === "overview" && (
             <>
               <section>
-                <CardGroup />
+                <CardGroup projects={projects} count={count} />
               </section>
               <section className="flex gap-3 mt-3 mx-[11px]">
                 <HeroChart />
-                <ActiveOrders />
+                <ActiveOrders projects={projects?.slice(0, 6)} />
               </section>
             </>
           )}

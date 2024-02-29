@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Card, CardContent, CardTitle } from "./ui/card";
+import { Card, CardContent, CardTitle } from "../ui/card";
 const data = [
   {
     name: "Jan",

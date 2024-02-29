@@ -1,4 +1,4 @@
-import { Card, CardContent, CardTitle } from "./ui/card";
+import { Card, CardContent, CardTitle } from "../ui/card";
 import CountUp from "react-countup";
 function BestMonthCard() {
   return (
