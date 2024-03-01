@@ -27,7 +27,6 @@ export default function ProjectsTable({ count }: IProjectsTable) {
     sortBy,
     filterBy,
   });
-  console.log(filterBy);
   const projects = data?.data;
 
   const numberOfPages = Math.ceil((count as number) / PAGE_SIZE);
@@ -44,6 +43,7 @@ export default function ProjectsTable({ count }: IProjectsTable) {
     <div className="max-w-[950px] mx-auto">
       <div>
         <ProjectsFilter
+          sortBy={sortBy}
           onFilterByChange={handleFilterByChange}
           onSortByChange={handleSortByChange}
         />

@@ -1,6 +1,6 @@
 const Loader = () => {
   return (
-    <div className="h-[90%] w-full overflow-hidden flex justify-center items-center ">
+    <div className="h-[100%] w-full overflow-hidden flex justify-center items-center z-1000 fixed top-0 left-0 ">
       <div className="spinner">
         <div></div>
         <div></div>

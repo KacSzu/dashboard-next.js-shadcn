@@ -53,7 +53,7 @@ export type Database = {
           name: string
           price: number
           projectType: string
-          status: string
+          status?: string
         }
         Update: {
           avatar?: string

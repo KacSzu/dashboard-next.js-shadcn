@@ -1,5 +1,7 @@
 import { PAGE_SIZE } from "@/lib/constants";
 import { supabase } from "../lib/supabaseClient";
+import { TNewProject, newProjectSchema } from "@/lib/schema";
+import { z } from "zod";
 export async function getProjects() {
   let query = supabase.from("projects").select("*", { count: "exact" });
 
@@ -47,6 +49,25 @@ export async function getLastYearProjects() {
 
   if (error) {
     throw new Error("Projects could not be loaded.");
+  }
+
+  return data;
+}
+
+export async function createNewProject(newProject: TNewProject) {
+  const { data, error } = await supabase.from("projects").insert([
+    {
+      projectType: newProject.projectType,
+      price: newProject.price,
+      name: newProject.name,
+      avatar: newProject.avatar,
+      email: newProject.email,
+    },
+  ]);
+
+  if (error) {
+    console.error("Error creating new project:", error.message);
+    throw new Error("Could not create new project.");
   }
 
   return data;

@@ -1,9 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  createNewProject,
   getLastYearProjects,
   getPaginatedProjects,
   getProjects,
 } from "../api/apiOrders";
+import toast from "react-hot-toast";
+import { TNewProject } from "./schema";
 export function useProjects() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["projects"],
@@ -21,7 +24,6 @@ export function usePaginatedProjects({
   sortBy,
   filterBy,
 }: IUsePaginatedProjects) {
-  console.log(filterBy);
   const [field, direction] = sortBy.split("-");
   const [filterField, value] = filterBy.split("-");
   const { data, error, isFetched } = useQuery({
@@ -41,4 +43,20 @@ export function useLastYearProjects() {
     queryFn: getLastYearProjects,
   });
   return { data, error, isFetched };
+}
+
+export function useCreateNewProject() {
+  const queryClient = useQueryClient();
+  const { mutate: createProject, isPending } = useMutation({
+    mutationFn: (newProject: TNewProject) => createNewProject(newProject),
+    mutationKey: ["projects"],
+    onSuccess: () => {
+      toast.success("New project created successfully");
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+    onError: () => {
+      toast.error("New project could not be created");
+    },
+  });
+  return { createProject, isPending };
 }

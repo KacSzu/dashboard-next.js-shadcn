@@ -3,20 +3,19 @@ import ActiveOrders from "./overview/ActiveOrders";
 import ButtonGroup from "./ButtonGroup";
 import CardGroup from "./overview/CardGroup";
 import HeroChart from "@/components/overview/HeroChart";
-import { CalendarPopover } from "./dashboardHeader/CalendarPopover";
 import { useState } from "react";
 import ProjectsTable from "./allOrders/ProjectsTable";
 import BestMonthCard from "./analythics/BestMonthCard";
 import TypeChart from "./analythics/TypeChart";
 import CompareArea from "./analythics/CompareArea";
-import { NewOrderModal } from "./dashboardHeader/NewOrderModal";
+import NewProjectModal from "./dashboardHeader/NewProjectModal";
 import { useProjects } from "@/lib/actions";
 import Loader from "./Loader";
+import { CalendarRangePicker } from "./dashboardHeader/CalendarRangePicker";
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState<string>("overview");
   const { data, error, isLoading } = useProjects();
-  console.log(isLoading);
   const projects = data?.data;
   const count = data?.count;
   const HEADER_BUTTONS = [
@@ -44,8 +43,8 @@ function Dashboard() {
             data={HEADER_BUTTONS}
             setActiveTab={setActiveTab}
           />
-          <NewOrderModal />
-          <CalendarPopover />
+          <NewProjectModal />
+          <CalendarRangePicker />
         </header>
         <main>
           {activeTab === "overview" && (
@@ -67,9 +66,9 @@ function Dashboard() {
           {activeTab === "analythics" && (
             <section className="space-y-3">
               <div className="mx-[11px] flex gap-3 ">
-                <TypeChart />
-                <BestMonthCard />
-                <BestMonthCard />
+                <TypeChart projects={projects} />
+                <BestMonthCard projects={projects} />
+                <BestMonthCard projects={projects} />
               </div>
               <div>
                 <CompareArea />
