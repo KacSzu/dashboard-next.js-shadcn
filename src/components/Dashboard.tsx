@@ -60,7 +60,7 @@ function Dashboard() {
           )}
           {activeTab === "allOrders" && (
             <section>
-              <ProjectsTable count={count} />
+              <ProjectsTable />
             </section>
           )}
           {activeTab === "analythics" && (

@@ -13,12 +13,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatCurrency, trimZerosFromCurrency } from "@/lib/utils";
 import { usePaginatedProjects } from "@/lib/actions";
 import { useState } from "react";
-import { PAGE_SIZE } from "@/lib/constants";
 import ProjectsFilter from "./ProjectsFilter";
-interface IProjectsTable {
-  count: number | null | undefined;
-}
-export default function ProjectsTable({ count }: IProjectsTable) {
+
+export default function ProjectsTable() {
   const [sortBy, setSortBy] = useState<string>("created_at-desc");
   const [filterBy, setFilterBy] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -28,8 +25,7 @@ export default function ProjectsTable({ count }: IProjectsTable) {
     filterBy,
   });
   const projects = data?.data;
-
-  const numberOfPages = Math.ceil((count as number) / PAGE_SIZE);
+  const count = data?.count;
   const handleChangePage = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -39,6 +35,10 @@ export default function ProjectsTable({ count }: IProjectsTable) {
   const handleFilterByChange = (filterBy: string) => {
     setFilterBy(`projectType-${filterBy}`);
   };
+  const handleResetFilter = (filterBy: string) => {
+    setFilterBy("");
+  };
+
   return (
     <div className="max-w-[950px] mx-auto">
       <div>
@@ -46,6 +46,8 @@ export default function ProjectsTable({ count }: IProjectsTable) {
           sortBy={sortBy}
           onFilterByChange={handleFilterByChange}
           onSortByChange={handleSortByChange}
+          onPageChange={handleChangePage}
+          onResetFilter={handleResetFilter}
         />
       </div>
       <Table>
@@ -89,7 +91,7 @@ export default function ProjectsTable({ count }: IProjectsTable) {
       </Table>
       <div className="mt-4">
         <TablePagination
-          count={numberOfPages}
+          count={count}
           currentPage={currentPage}
           onChangePage={handleChangePage}
         />
