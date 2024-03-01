@@ -53,6 +53,7 @@ export function useCreateNewProject() {
     onSuccess: () => {
       toast.success("New project created successfully");
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["projects last-365"] });
     },
     onError: () => {
       toast.error("New project could not be created");
