@@ -1,5 +1,5 @@
 import { useLastYearProjects } from "@/lib/actions";
-import { Card, CardContent, CardTitle } from "../ui/card";
+import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
 import {
   BarChart,
   Bar,
@@ -82,8 +82,11 @@ function HeroChart() {
   }
 
   return (
-    <Card className="w-[70%] p-4 space-y-5">
-      <CardTitle>Overview</CardTitle>
+    <Card className="w-[70%] p-4 space-t-4">
+      <div className="space-y-2 px-9">
+        <CardTitle>Overview</CardTitle>
+        <CardDescription>Last year incomes</CardDescription>
+      </div>
       <CardContent>
         <ResponsiveContainer width="100%" height={360}>
           <BarChart
@@ -92,7 +95,7 @@ function HeroChart() {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis stroke="#a3a3a3" dataKey="name" />
-            <YAxis stroke="#a3a3a3" unit="zł" />
+            <YAxis stroke="#a3a3a3" unit="$" />
             <Bar radius={5} barSize={30} dataKey="value" fill="#22c55e" />
           </BarChart>
         </ResponsiveContainer>

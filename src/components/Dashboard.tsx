@@ -1,5 +1,5 @@
 "use client";
-import ActiveOrders from "./overview/ActiveOrders";
+import RecentProjects from "./overview/RecentProjects";
 import ButtonGroup from "./ButtonGroup";
 import CardGroup from "./overview/CardGroup";
 import HeroChart from "@/components/overview/HeroChart";
@@ -12,6 +12,7 @@ import NewProjectModal from "./dashboardHeader/NewProjectModal";
 import { useProjects } from "@/lib/actions";
 import Loader from "./Loader";
 import { CalendarRangePicker } from "./dashboardHeader/CalendarRangePicker";
+import WaitingProjectsCard from "./development/WaitingProjectsCard";
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState<string>("overview");
@@ -30,6 +31,10 @@ function Dashboard() {
     {
       title: "Analythics",
       value: "analythics",
+    },
+    {
+      title: "Development",
+      value: "development",
     },
   ];
 
@@ -54,7 +59,7 @@ function Dashboard() {
               </section>
               <section className="flex gap-3 mt-3 mx-[11px]">
                 <HeroChart />
-                <ActiveOrders projects={projects?.slice(0, 6)} />
+                <RecentProjects projects={projects?.slice(0, 6)} />
               </section>
             </>
           )}
@@ -73,6 +78,12 @@ function Dashboard() {
               <div>
                 <CompareArea />
               </div>
+            </section>
+          )}
+          {activeTab === "development" && (
+            <section className="grid grid-cols-12 mx-[12px]">
+              <WaitingProjectsCard />
+              <div></div>
             </section>
           )}
         </main>

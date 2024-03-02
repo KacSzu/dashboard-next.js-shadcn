@@ -1,5 +1,3 @@
-"use client";
-
 import { useForm } from "react-hook-form";
 import {
   Select,
@@ -25,36 +23,53 @@ import { Button } from "../ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useCreateNewProject } from "@/lib/actions";
 import { RingLoader } from "react-spinners";
-interface INewProjectForm {
+import { useUpdateProject } from "@/lib/actions";
+interface IUpdateProjectForm {
   onClose: () => void;
+  project: {
+    avatar: string;
+    created_at: string;
+    email: string;
+    id: number;
+    name: string;
+    price: number;
+    projectType: string;
+    status: string;
+  };
 }
-function NewProjectForm({ onClose }: INewProjectForm) {
-  const { createProject, isPending } = useCreateNewProject();
+function UpdateProjectForm({ onClose, project }: IUpdateProjectForm) {
+  const { projectType, price, name, email, avatar } = project;
+  const { updateProject, isPending } = useUpdateProject();
   const form = useForm<TProject>({
     resolver: zodResolver(ProjectFormSchema),
     defaultValues: {
-      projectType: "",
-      price: 1,
-      name: "",
-      email: "",
-      avatar: "",
+      projectType: projectType,
+      price: price,
+      name: name,
+      email: email,
+      avatar: "/" + avatar,
     },
   });
   const { reset } = form;
   function onSubmit(formValues: TProject) {
-    const newProject = { ...formValues, avatar: formValues.avatar.slice(1) };
-    createProject(newProject, {
-      onSuccess: () => {
-        reset();
-        onClose();
-      },
-      onError: () => {
-        reset();
-        onClose();
-      },
-    });
+    const updatedProjectData = {
+      ...formValues,
+      avatar: formValues.avatar.slice(1),
+    };
+    updateProject(
+      { projectId: project.id, updatedProjectData },
+      {
+        onSuccess: () => {
+          reset();
+          onClose();
+        },
+        onError: () => {
+          reset();
+          onClose();
+        },
+      }
+    );
   }
   return (
     <Form {...form}>
@@ -203,4 +218,4 @@ function NewProjectForm({ onClose }: INewProjectForm) {
   );
 }
 
-export default NewProjectForm;
+export default UpdateProjectForm;

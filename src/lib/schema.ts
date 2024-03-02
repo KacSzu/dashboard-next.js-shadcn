@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const newProjectSchema = z.object({
+export const ProjectFormSchema = z.object({
   projectType: z.string().min(1, "Project type is required."),
   price: z.number().min(1, "Price must be greater than 0."),
   name: z.string().min(1, "Name is required."),
@@ -10,4 +10,4 @@ export const newProjectSchema = z.object({
     .min(1, "Email is required."),
 });
 
-export type TNewProject = z.infer<typeof newProjectSchema>;
+export type TProject = z.infer<typeof ProjectFormSchema>;

@@ -24,16 +24,12 @@ export default function TablePagination({
 
   const getPaginationRange = () => {
     if (numberOfPages <= 3) {
-      // Mniej niż 4 strony, pokazuj wszystkie
       return [...Array(numberOfPages)].map((_, index) => index + 1);
     } else if (currentPage === 1) {
-      // Na pierwszej stronie
       return [1, 2, 3];
     } else if (currentPage === numberOfPages) {
-      // Na ostatniej stronie
       return [numberOfPages - 2, numberOfPages - 1, numberOfPages];
     } else {
-      // Dla stron pośrodku
       return [currentPage - 1, currentPage, currentPage + 1];
     }
   };

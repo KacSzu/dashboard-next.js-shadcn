@@ -3,8 +3,8 @@ import { Inter as FontSans } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import QueryProvider from "@/app/providers";
+
+import QueryProvider, { ThemeProvider } from "@/app/providers";
 
 export const fontSans = FontSans({
   subsets: ["latin"],

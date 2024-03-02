@@ -1,12 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createNewProject,
+  deleteProject as deleteProjectApi,
   getLastYearProjects,
   getPaginatedProjects,
   getProjects,
+  updateProject as updateProjectApi,
 } from "../api/apiOrders";
 import toast from "react-hot-toast";
-import { TNewProject } from "./schema";
+import { TProject } from "./schema";
 export function useProjects() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["projects"],
@@ -48,7 +50,7 @@ export function useLastYearProjects() {
 export function useCreateNewProject() {
   const queryClient = useQueryClient();
   const { mutate: createProject, isPending } = useMutation({
-    mutationFn: (newProject: TNewProject) => createNewProject(newProject),
+    mutationFn: (newProject: TProject) => createNewProject(newProject),
     mutationKey: ["projects"],
     onSuccess: () => {
       toast.success("New project created successfully");
@@ -60,4 +62,42 @@ export function useCreateNewProject() {
     },
   });
   return { createProject, isPending };
+}
+
+export function useDeleteProject() {
+  const queryClient = useQueryClient();
+  const { mutate: deleteProject, isPending } = useMutation({
+    mutationFn: (projectId: number) => deleteProjectApi(projectId),
+    mutationKey: ["projects"],
+    onSuccess: () => {
+      toast.success("Project deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+    onError: () => {
+      toast.error("Project could not be deleted");
+    },
+  });
+  return { deleteProject, isPending };
+}
+
+export function useUpdateProject() {
+  const queryClient = useQueryClient();
+  const { mutate: updateProject, isPending } = useMutation({
+    mutationFn: ({
+      projectId,
+      updatedProjectData,
+    }: {
+      projectId: number;
+      updatedProjectData: TProject;
+    }) => updateProjectApi(projectId, updatedProjectData),
+    mutationKey: ["projects"],
+    onSuccess: () => {
+      toast.success("Project updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+    onError: () => {
+      toast.error("Project could not be updated");
+    },
+  });
+  return { updateProject, isPending };
 }
