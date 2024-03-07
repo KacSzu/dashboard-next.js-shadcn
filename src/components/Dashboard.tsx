@@ -9,7 +9,7 @@ import BestMonthCard from "./analythics/BestMonthCard";
 import TypeChart from "./analythics/TypeChart";
 import CompareArea from "./analythics/CompareArea";
 import NewProjectModal from "./dashboardHeader/NewProjectModal";
-import { useProjects } from "@/lib/actions";
+import { useProjects } from "@/utils/actions";
 import Loader from "./Loader";
 import { CalendarRangePicker } from "./dashboardHeader/CalendarRangePicker";
 import WaitingProjectsCard from "./development/WaitingProjectsCard";

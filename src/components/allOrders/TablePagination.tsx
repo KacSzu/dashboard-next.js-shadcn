@@ -7,7 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { PAGE_SIZE } from "@/lib/constants";
+import { PAGE_SIZE } from "@/utils/constants";
 
 interface ITablePagination {
   count: number | null | undefined;

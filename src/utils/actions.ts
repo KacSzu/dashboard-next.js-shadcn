@@ -6,7 +6,7 @@ import {
   getPaginatedProjects,
   getProjects,
   updateProject as updateProjectApi,
-} from "../api/apiOrders";
+} from "../api/apiProjects";
 import toast from "react-hot-toast";
 import { TProject } from "./schema";
 export function useProjects() {

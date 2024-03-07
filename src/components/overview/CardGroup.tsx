@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency } from "@/utils/utils";
 interface ICardGroup {
   projects:
     | {

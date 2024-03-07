@@ -25,7 +25,9 @@ function WaitingProject() {
       <div className="text-primary min-w-[65px] flex justify-end ">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button size="sm">Show Dialog</Button>
+            <Button size="sm" variant="secondary">
+              Show Dialog
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>

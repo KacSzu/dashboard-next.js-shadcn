@@ -21,8 +21,8 @@ import {
 } from "@/components/ui/table";
 import TablePagination from "./TablePagination";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { formatCurrency, trimZerosFromCurrency } from "@/lib/utils";
-import { useDeleteProject, usePaginatedProjects } from "@/lib/actions";
+import { formatCurrency, trimZerosFromCurrency } from "@/utils/utils";
+import { useDeleteProject, usePaginatedProjects } from "@/utils/actions";
 import { useState } from "react";
 import ProjectsFilter from "./ProjectsFilter";
 import Loader from "../Loader";

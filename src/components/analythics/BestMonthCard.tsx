@@ -114,8 +114,7 @@ function BestMonthCard({ projects }: IBestMonthCard) {
           <p className="text-xl">Most earned: {mostProfitableMonth}</p>
           <div className="text-primary text-5xl font-bold">
             <div className="space-x-1">
-              <CountUp end={highestSum} duration={3} />
-              zł
+              <CountUp end={highestSum} duration={3} />$
             </div>
           </div>
         </div>

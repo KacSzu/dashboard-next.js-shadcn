@@ -1,6 +1,6 @@
-import { PAGE_SIZE } from "@/lib/constants";
-import { supabase } from "../lib/supabaseClient";
-import { TProject } from "@/lib/schema";
+import { PAGE_SIZE } from "@/utils/constants";
+import { supabase } from "../utils/supabaseClient";
+import { TProject } from "@/utils/schema";
 
 export async function getProjects() {
   let query = supabase.from("projects").select("*", { count: "exact" });

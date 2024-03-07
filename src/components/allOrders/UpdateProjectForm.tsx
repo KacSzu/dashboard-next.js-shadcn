@@ -18,13 +18,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TProject, ProjectFormSchema } from "@/lib/schema";
+import { TProject, ProjectFormSchema } from "@/utils/schema";
 import { Button } from "../ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { RingLoader } from "react-spinners";
-import { useUpdateProject } from "@/lib/actions";
+import { useUpdateProject } from "@/utils/actions";
 interface IUpdateProjectForm {
   onClose: () => void;
   project: {

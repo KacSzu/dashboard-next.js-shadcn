@@ -1,4 +1,4 @@
-import { formatCurrency, trimZerosFromCurrency } from "@/lib/utils";
+import { formatCurrency, trimZerosFromCurrency } from "@/utils/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardTitle } from "../ui/card";
 

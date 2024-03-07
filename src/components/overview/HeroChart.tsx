@@ -1,4 +1,4 @@
-import { useLastYearProjects } from "@/lib/actions";
+import { useLastYearProjects } from "@/utils/actions";
 import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
 import {
   BarChart,

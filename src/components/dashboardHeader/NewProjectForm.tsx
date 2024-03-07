@@ -20,12 +20,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TProject, ProjectFormSchema } from "@/lib/schema";
+import { TProject, ProjectFormSchema } from "@/utils/schema";
 import { Button } from "../ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useCreateNewProject } from "@/lib/actions";
+import { useCreateNewProject } from "@/utils/actions";
 import { RingLoader } from "react-spinners";
 interface INewProjectForm {
   onClose: () => void;
