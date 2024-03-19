@@ -11,12 +11,12 @@ import CompareArea from "./analythics/CompareArea";
 import NewProjectModal from "./dashboardHeader/NewProjectModal";
 import { useProjects } from "@/utils/actions";
 import Loader from "./Loader";
-import { CalendarRangePicker } from "./dashboardHeader/CalendarRangePicker";
 import WaitingProjectsCard from "./development/WaitingProjectsCard";
+import ActiveProjectsCard from "./development/ActiveProjectsCard";
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState<string>("overview");
-  const { data, error, isLoading } = useProjects();
+  const { data, isLoading } = useProjects();
   const projects = data?.data;
   const count = data?.count;
   const HEADER_BUTTONS = [
@@ -49,9 +49,8 @@ function Dashboard() {
             setActiveTab={setActiveTab}
           />
           <NewProjectModal />
-          <CalendarRangePicker />
         </header>
-        <main className="max-w-[1000px]  mx-[12px]">
+        <main className=" mx-[12px]">
           {activeTab === "overview" && (
             <div className="space-y-1">
               <section>
@@ -73,20 +72,21 @@ function Dashboard() {
             </section>
           )}
           {activeTab === "analythics" && (
-            <section className="space-y-3">
-              <div className="mx-[11px] flex gap-3 ">
+            <div className="space-y-1">
+              <section className="grid grid-cols-12 gap-1">
                 <TypeChart projects={projects} />
                 <BestMonthCard projects={projects} />
                 <BestMonthCard projects={projects} />
-              </div>
-              <div>
+              </section>
+              <section className="col-span-12">
                 <CompareArea />
-              </div>
-            </section>
+              </section>
+            </div>
           )}
           {activeTab === "development" && (
-            <section className="grid grid-cols-12 mx-[12px]">
+            <section className="grid grid-cols-12 gap-1 ">
               <WaitingProjectsCard />
+              <ActiveProjectsCard />
             </section>
           )}
         </main>

@@ -33,7 +33,7 @@ export default function ProjectsTable() {
   const [sortBy, setSortBy] = useState<string>("created_at-desc");
   const [filterBy, setFilterBy] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { data, error, isFetched } = usePaginatedProjects({
+  const { data, isFetched } = usePaginatedProjects({
     currentPage,
     sortBy,
     filterBy,
@@ -50,7 +50,7 @@ export default function ProjectsTable() {
   const handleFilterByChange = (filterBy: string) => {
     setFilterBy(`projectType-${filterBy}`);
   };
-  const handleResetFilter = (filterBy: string) => {
+  const handleResetFilter = () => {
     setFilterBy("");
   };
   const isFetching = !isFetched || isPending;
@@ -68,7 +68,7 @@ export default function ProjectsTable() {
       {isFetching && <Loader />}
 
       {!isFetching && (
-        <div className="h-[55vh]">
+        <div className="h-[55vh] mt-4">
           <Table>
             <TableHeader>
               <TableRow>

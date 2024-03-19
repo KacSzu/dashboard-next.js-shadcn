@@ -107,7 +107,7 @@ function BestMonthCard({ projects }: IBestMonthCard) {
   const { mostCommonMonth, maxCount } =
     findMostCommonMonthAndCount(monthCounts);
   return (
-    <Card className="w-[330px] p-4">
+    <Card className="col-span-4 p-4">
       <CardTitle>Best month</CardTitle>
       <CardContent className="mt-5 space-y-7">
         <div className="text-center space-y-2">

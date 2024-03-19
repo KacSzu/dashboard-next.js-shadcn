@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import {
   Area,
   AreaChart,
@@ -9,68 +10,136 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardTitle } from "../ui/card";
-const data = [
-  {
-    name: "Jan",
-    totalEarned: 4000,
-    totalProjects: 3,
-    amt: 2400,
-  },
-  {
-    name: "Feb",
-    totalEarned: 3000,
-    totalProjects: 3222,
-    amt: 2210,
-  },
-  {
-    name: "Mar",
-    totalEarned: 2000,
-    totalProjects: 3323,
-    amt: 2290,
-  },
-  {
-    name: "Apr",
-    totalEarned: 2780,
-    totalProjects: 2323,
-    amt: 2000,
-  },
-  {
-    name: "May",
-    totalEarned: 1890,
-    totalProjects: 3333,
-    amt: 2181,
-  },
-  {
-    name: "Jun",
-    totalEarned: 2390,
-    totalProjects: 3532,
-    amt: 2500,
-  },
-  {
-    name: "Jul",
-    totalEarned: 3490,
-    totalProjects: 5000,
-    amt: 2100,
-  },
-];
+import { useLastYearProjects } from "@/utils/actions";
+
+type Month =
+  | "Jan"
+  | "Feb"
+  | "Mar"
+  | "Apr"
+  | "May"
+  | "Jun"
+  | "Jul"
+  | "Aug"
+  | "Sep"
+  | "Okt"
+  | "Nov"
+  | "Dec";
+type ProjectType =
+  | "web_page"
+  | "store"
+  | "integration"
+  | "application"
+  | "other";
+
+interface Project {
+  created_at: string;
+  projectType: ProjectType;
+  price: number;
+}
+
+interface ChartData {
+  name: Month;
+  web_page: number;
+  store: number;
+  integration: number;
+  application: number;
+  other: number;
+}
+
 function CompareArea() {
+  const { data: projects, isFetched } = useLastYearProjects();
+
+  const getSortedMonths = (): Month[] => {
+    const currentMonthIndex = new Date().getMonth();
+    const monthNames: Month[] = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dec",
+    ];
+    return monthNames
+      .slice(currentMonthIndex)
+      .concat(monthNames.slice(0, currentMonthIndex))
+      .reverse() as Month[];
+  };
+
+  const processData = (projects: Project[]): ChartData[] => {
+    const sortedMonths = getSortedMonths();
+    const monthlyData: Record<Month, ChartData> = sortedMonths.reduce(
+      (acc, month) => {
+        acc[month] = {
+          name: month,
+          web_page: 0,
+          store: 0,
+          integration: 0,
+          application: 0,
+          other: 0,
+        };
+        return acc;
+      },
+      {} as Record<Month, ChartData>
+    );
+
+    projects.forEach(({ created_at, projectType, price }) => {
+      const month: Month = new Date(created_at).toLocaleString("en-us", {
+        month: "short",
+      }) as Month;
+      if (monthlyData[month]) {
+        monthlyData[month][projectType] += price;
+      }
+    });
+
+    return Object.values(monthlyData);
+  };
+
+  const chartData = isFetched
+    ? processData(
+        (projects || []).map((project) => ({
+          created_at: project.created_at,
+          projectType: project.projectType as ProjectType,
+          price: project.price,
+        }))
+      )
+    : [];
+
   return (
-    <Card className="mx-[11px] p-4">
+    <Card className=" p-4 space-y-3">
       <CardTitle>Summary</CardTitle>
       <CardContent>
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={200}>
           <AreaChart
-            data={data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+            data={chartData}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="colorWeb" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="colorStore" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorInteg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#fa8072" stopOpacity={0.8} />{" "}
+                <stop offset="95%" stopColor="#fa8072" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorApp" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#ffa500" stopOpacity={0.8} />{" "}
+                <stop offset="95%" stopColor="#ffa500" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorOther" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#20b2aa" stopOpacity={0.8} />{" "}
+                <stop offset="95%" stopColor="#20b2aa" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="name" />
@@ -79,17 +148,38 @@ function CompareArea() {
             <Tooltip />
             <Area
               type="monotone"
-              dataKey="totalEarned"
+              dataKey="web_page"
               stroke="#8884d8"
               fillOpacity={1}
-              fill="url(#colorUv)"
+              fill="url(#colorWeb)"
             />
             <Area
               type="monotone"
-              dataKey="totalProjects"
+              dataKey="store"
               stroke="#82ca9d"
               fillOpacity={1}
-              fill="url(#colorPv)"
+              fill="url(#colorStore)"
+            />
+            <Area
+              type="monotone"
+              dataKey="integration"
+              stroke="#ffc658"
+              fillOpacity={1}
+              fill="url(#colorInteg)"
+            />
+            <Area
+              type="monotone"
+              dataKey="application"
+              stroke="#a4de6c"
+              fillOpacity={1}
+              fill="url(#colorApp)"
+            />
+            <Area
+              type="monotone"
+              dataKey="other"
+              stroke="#d0ed57"
+              fillOpacity={1}
+              fill="url(#colorOther)"
             />
           </AreaChart>
         </ResponsiveContainer>

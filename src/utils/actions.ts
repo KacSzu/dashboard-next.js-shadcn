@@ -5,7 +5,9 @@ import {
   getLastYearProjects,
   getPaginatedProjects,
   getProjects,
+  getProjectsByStatus,
   updateProject as updateProjectApi,
+  updateProjectStatus as updateProjectStatusApi,
 } from "../api/apiProjects";
 import toast from "react-hot-toast";
 import { TProject } from "./schema";
@@ -13,6 +15,13 @@ export function useProjects() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["projects"],
     queryFn: () => getProjects(),
+  });
+  return { data, error, isLoading };
+}
+export function useProjectsFiltredByStatus(status: string) {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["projects", status],
+    queryFn: () => getProjectsByStatus(status),
   });
   return { data, error, isLoading };
 }
@@ -100,4 +109,26 @@ export function useUpdateProject() {
     },
   });
   return { updateProject, isPending };
+}
+
+export function useUpdateProjectStatus() {
+  const queryClient = useQueryClient();
+  const { mutate: updateProjectStatus, isPending } = useMutation({
+    mutationFn: ({
+      projectId,
+      newStatus,
+    }: {
+      projectId: number;
+      newStatus: string;
+    }) => updateProjectStatusApi(projectId, newStatus),
+    mutationKey: ["projects"],
+    onSuccess: () => {
+      toast.success("Project updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+    onError: () => {
+      toast.error("Project could not be updated");
+    },
+  });
+  return { updateProjectStatus, isPending };
 }

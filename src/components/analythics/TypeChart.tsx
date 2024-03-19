@@ -75,7 +75,7 @@ function TypeChart({ projects }: ITypeChart) {
     },
   ];
   return (
-    <Card className="w-1/3 p-4">
+    <Card className="col-span-4 p-4">
       <CardTitle>Types</CardTitle>
       <RadarChart outerRadius={90} width={340} height={220} data={data}>
         <PolarGrid />

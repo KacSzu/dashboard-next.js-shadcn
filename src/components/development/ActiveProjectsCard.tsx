@@ -8,19 +8,20 @@ import {
 } from "@/components/ui/card";
 import WaitingProject from "./WaitingProject";
 import { useProjectsFiltredByStatus } from "@/utils/actions";
+import ActiveProject from "./ActiveProject";
 import Loader from "../Loader";
 
-function WaitingProjectsCard() {
-  const { data: projects, isLoading } = useProjectsFiltredByStatus("waiting");
+function ActiveProjectsCard() {
+  const { data: projects, isLoading } = useProjectsFiltredByStatus("active");
   if (isLoading) return <Loader />;
   return (
     <Card className="col-span-6 h-[596px] overflow-y-auto">
       <CardHeader>
-        <CardTitle>Waiting projects</CardTitle>
+        <CardTitle>Active projects</CardTitle>
       </CardHeader>
       <CardContent className=" flex flex-col  divide-y divide-y-muted-foreground">
         {projects?.map(({ avatar, email, name, id }, i) => (
-          <WaitingProject
+          <ActiveProject
             avatar={avatar}
             email={email}
             name={name}
@@ -33,4 +34,4 @@ function WaitingProjectsCard() {
   );
 }
 
-export default WaitingProjectsCard;
+export default ActiveProjectsCard;

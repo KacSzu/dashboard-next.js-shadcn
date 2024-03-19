@@ -3,7 +3,6 @@ import { Inter as FontSans } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { cn } from "@/utils/utils";
-import { GoogleTagManager } from "@next/third-parties/google";
 import QueryProvider, { ThemeProvider } from "@/app/providers";
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -39,7 +38,6 @@ export default function RootLayout({
           </ThemeProvider>
         </QueryProvider>
       </body>
-      <GoogleTagManager gtmId="G-4MM2DRSKEJ" />
     </html>
   );
 }

@@ -60,7 +60,19 @@ export async function getLastYearProjects() {
 
   return data;
 }
-export async function getProjectsByStatus() {}
+export async function getProjectsByStatus(status: string) {
+  let { data: projects, error } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("status", status);
+
+  if (error) {
+    console.error("Loading projects went wrong:", error.message);
+    throw new Error("Projects could not be loaded.");
+  }
+
+  return projects;
+}
 export async function createNewProject(newProject: TProject) {
   const { data, error } = await supabase.from("projects").insert([
     {
@@ -103,6 +115,21 @@ export async function updateProject(
       email: updatedProjectData.email,
     })
     .match({ id: projectId });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+export async function updateProjectStatus(
+  projectId: number,
+  newStatus: string
+) {
+  const { data, error } = await supabase
+    .from("projects")
+    .update({ status: newStatus })
+    .eq("id", projectId);
 
   if (error) {
     throw new Error(error.message);

@@ -1,4 +1,5 @@
 import { useUpdateProjectStatus } from "@/utils/actions";
+import Loader from "../Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
@@ -12,14 +13,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import Loader from "../Loader";
 interface IWaitingProject {
   avatar: string;
   email: string;
   name: string;
   projectId: number;
 }
-function WaitingProject({ avatar, email, name, projectId }: IWaitingProject) {
+function ActiveProject({ avatar, email, name, projectId }: IWaitingProject) {
   const { updateProjectStatus, isPending } = useUpdateProjectStatus();
   if (isPending) return <Loader />;
   return (
@@ -36,7 +36,7 @@ function WaitingProject({ avatar, email, name, projectId }: IWaitingProject) {
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button size="sm" variant="secondary">
-              Set as active
+              Set as done
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
@@ -50,7 +50,7 @@ function WaitingProject({ avatar, email, name, projectId }: IWaitingProject) {
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={() =>
-                  updateProjectStatus({ projectId, newStatus: "active" })
+                  updateProjectStatus({ projectId, newStatus: "done" })
                 }
               >
                 Continue
@@ -63,4 +63,4 @@ function WaitingProject({ avatar, email, name, projectId }: IWaitingProject) {
   );
 }
 
-export default WaitingProject;
+export default ActiveProject;

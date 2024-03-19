@@ -82,10 +82,9 @@ function HeroChart() {
   }
 
   return (
-    <Card className="p-4 h-[420px]">
-      <div className="space-y-2 px-9">
+    <Card className="p-4 h-[420px] space-y-10">
+      <div className="space-y-2 ">
         <CardTitle>Overview</CardTitle>
-        <CardDescription>Last year incomes</CardDescription>
       </div>
       <CardContent className=" h-[85%] ">
         <ResponsiveContainer width="100%" height="100%">
