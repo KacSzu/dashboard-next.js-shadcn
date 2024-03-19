@@ -82,13 +82,13 @@ function HeroChart() {
   }
 
   return (
-    <Card className="w-[70%] p-4 space-t-4">
+    <Card className="p-4 h-[420px]">
       <div className="space-y-2 px-9">
         <CardTitle>Overview</CardTitle>
         <CardDescription>Last year incomes</CardDescription>
       </div>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={360}>
+      <CardContent className=" h-[85%] ">
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}

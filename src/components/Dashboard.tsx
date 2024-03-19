@@ -40,7 +40,7 @@ function Dashboard() {
 
   if (isLoading) return <Loader />;
   return (
-    <div className="shadow-md mx-auto bg-background border border-muted rounded  w-[1024px] h-[80%] lg:h-[750px]">
+    <div className="shadow-md mx-auto bg-background border border-muted rounded  max-w-5xl h-[680px] ">
       <div className="flex flex-col gap-4">
         <header className="mx-[12px] mt-4 flex justify-between">
           <ButtonGroup
@@ -51,17 +51,21 @@ function Dashboard() {
           <NewProjectModal />
           <CalendarRangePicker />
         </header>
-        <main>
+        <main className="max-w-[1000px]  mx-[12px]">
           {activeTab === "overview" && (
-            <>
+            <div className="space-y-1">
               <section>
                 <CardGroup projects={projects} count={count} />
               </section>
-              <section className="flex gap-3 mt-3 mx-[11px]">
-                <HeroChart />
-                <RecentProjects projects={projects?.slice(0, 6)} />
+              <section className="grid grid-cols-12 gap-1 ">
+                <div className="col-span-8 ">
+                  <HeroChart />
+                </div>
+                <div className="col-span-4  ">
+                  <RecentProjects projects={projects?.slice(0, 5)} />
+                </div>
               </section>
-            </>
+            </div>
           )}
           {activeTab === "allOrders" && (
             <section>
@@ -83,7 +87,6 @@ function Dashboard() {
           {activeTab === "development" && (
             <section className="grid grid-cols-12 mx-[12px]">
               <WaitingProjectsCard />
-              <div></div>
             </section>
           )}
         </main>

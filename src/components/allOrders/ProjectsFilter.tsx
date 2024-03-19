@@ -69,7 +69,7 @@ function ProjectsFilter({
   };
 
   return (
-    <div className="mx-[12px] my-4 flex justify-between items-center ">
+    <div className="mx-[12px] mt-2 flex justify-between items-center ">
       <div className="flex items-center gap-2">
         <HiXMark
           onClick={handleResetFilter}

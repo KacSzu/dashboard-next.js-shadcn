@@ -55,10 +55,10 @@ function CardGroup({ projects, count }: ICardGroup) {
   ];
 
   return (
-    <div className="max-w-[1000px] mx-auto">
-      <div className="flex gap-2">
+    <div>
+      <div className="grid grid-cols-4 gap-1">
         {CARD_GROUP.map(({ title, description, content, icon }) => (
-          <Card key={title + description} className="w-[250px]">
+          <Card key={title + description}>
             <CardHeader>
               <CardTitle>
                 <div className="flex justify-between">

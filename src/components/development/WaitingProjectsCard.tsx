@@ -10,7 +10,7 @@ import WaitingProject from "./WaitingProject";
 
 function WaitingProjectsCard() {
   return (
-    <Card className="col-span-6 h-[654px]">
+    <Card className="col-span-6 h-[580px]">
       <CardHeader>
         <CardTitle>Waiting projects</CardTitle>
       </CardHeader>

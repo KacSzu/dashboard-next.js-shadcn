@@ -55,7 +55,7 @@ export default function ProjectsTable() {
   };
   const isFetching = !isFetched || isPending;
   return (
-    <div className="max-w-[950px] mx-auto">
+    <div>
       <div>
         <ProjectsFilter
           sortBy={sortBy}
@@ -68,7 +68,7 @@ export default function ProjectsTable() {
       {isFetching && <Loader />}
 
       {!isFetching && (
-        <>
+        <div className="h-[55vh]">
           <Table>
             <TableHeader>
               <TableRow>
@@ -142,7 +142,7 @@ export default function ProjectsTable() {
               onChangePage={handleChangePage}
             />
           </div>
-        </>
+        </div>
       )}
     </div>
   );

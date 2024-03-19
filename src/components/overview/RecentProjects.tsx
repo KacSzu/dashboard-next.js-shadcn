@@ -19,10 +19,10 @@ interface IActiveOrders {
 }
 function RecentProjects({ projects }: IActiveOrders) {
   return (
-    <div className="w-[29%] ">
-      <Card className="p-4 h-full ">
+    <div>
+      <Card className="p-4 h-[420px]">
         <CardTitle>Recent projects</CardTitle>
-        <CardContent className="p-0 mt-5 flex flex-col  divide-y divide-y-muted-foreground">
+        <CardContent className=" mt-3 flex flex-col  divide-y divide-y-muted-foreground">
           {projects?.map(({ avatar, name, email, price }, i) => (
             <div
               key={i}
