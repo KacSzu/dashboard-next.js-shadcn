@@ -24,6 +24,7 @@ interface IOrdersFilter {
   sortBy: string;
   onPageChange: (newPage: number) => void;
   onResetFilter: (filterBy: string) => void;
+  onSearchQueryChange: (companyName: string) => void;
 }
 const FILTER_BUTTONS = [
   {
@@ -51,11 +52,27 @@ function ProjectsFilter({
   onSortByChange,
   onFilterByChange,
   sortBy,
+  onSearchQueryChange,
   onPageChange,
   onResetFilter,
 }: IOrdersFilter) {
   const [selectedFilter, setSelectedFilter] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); // Stan dla zapytania wyszukiwania
 
+  // Aktualizuje stan na podstawie wprowadzonej wartości
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    if (event.target.value === "") {
+      onSearchQueryChange(""); // Resetuj wyszukiwanie, jeśli pole jest puste
+    }
+  };
+
+  // Wywoływane przy wysyłaniu formularza
+  const handleSearchSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSearchQueryChange(searchQuery);
+    onPageChange(1);
+  };
   const handleFilterChange = (filterBy: string) => {
     setSelectedFilter(filterBy);
     onFilterByChange(filterBy);
@@ -91,16 +108,21 @@ function ProjectsFilter({
           </SelectContent>
         </Select>
       </div>
-      <div className="flex w-fit max-w-sm items-center space-x-1 relative">
+      <form
+        className="flex w-fit max-w-sm items-center space-x-1 relative"
+        onSubmit={handleSearchSubmit}
+      >
         <Input
           type="text"
           placeholder="Find by company name"
           className="pl-9"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
         <button type="submit" className="absolute left-2">
           <HiMagnifyingGlass className="h-5 w-5" />
         </button>
-      </div>
+      </form>
       <div className="flex justify-center items-center">
         <ButtonGroup
           sortBy={sortBy}

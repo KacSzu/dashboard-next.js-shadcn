@@ -17,23 +17,36 @@ interface getPaginatedProjects {
   currentPage?: number;
   sortBy: { field: string; direction: string };
   filterBy: { filterField: string; value: string };
+  searchQuery?: string;
 }
 export async function getPaginatedProjects({
   currentPage,
   sortBy,
   filterBy,
+  searchQuery,
 }: getPaginatedProjects) {
   let query = supabase.from("projects").select("*", { count: "exact" });
-  if (filterBy) query = query.eq(filterBy.filterField, filterBy.value);
-  if (sortBy)
+
+  if (searchQuery) {
+    query = query.ilike("name", `%${searchQuery}%`);
+  }
+
+  if (filterBy) {
+    query = query.eq(filterBy.filterField, filterBy.value);
+  }
+
+  if (sortBy) {
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
     });
+  }
+
   if (currentPage) {
     const from = (currentPage - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
     query = query.range(from, to);
   }
+
   const { data, error, count } = await query;
   if (error) {
     console.error("Loading projects went wrong:", error.message);

@@ -49,9 +49,9 @@ interface ChartData {
 
 function CompareArea() {
   const { data: projects, isFetched } = useLastYearProjects();
-
   const getSortedMonths = (): Month[] => {
-    const currentMonthIndex = new Date().getMonth();
+    const currentDate = new Date();
+    const currentMonthIndex = currentDate.getMonth();
     const monthNames: Month[] = [
       "Jan",
       "Feb",
@@ -66,28 +66,50 @@ function CompareArea() {
       "Nov",
       "Dec",
     ];
-    return monthNames
-      .slice(currentMonthIndex)
-      .concat(monthNames.slice(0, currentMonthIndex))
-      .reverse() as Month[];
+
+    return [
+      ...monthNames.slice(currentMonthIndex + 1),
+      ...monthNames.slice(0, currentMonthIndex + 1),
+    ];
+  };
+
+  const getInitialMonthlyData = (): Record<Month, ChartData> => {
+    const monthNames: Month[] = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dec",
+    ];
+    const initialData: Record<Month, ChartData> = {} as Record<
+      Month,
+      ChartData
+    >;
+
+    monthNames.forEach((month) => {
+      initialData[month] = {
+        name: month,
+        web_page: 0,
+        store: 0,
+        integration: 0,
+        application: 0,
+        other: 0,
+      };
+    });
+
+    return initialData;
   };
 
   const processData = (projects: Project[]): ChartData[] => {
     const sortedMonths = getSortedMonths();
-    const monthlyData: Record<Month, ChartData> = sortedMonths.reduce(
-      (acc, month) => {
-        acc[month] = {
-          name: month,
-          web_page: 0,
-          store: 0,
-          integration: 0,
-          application: 0,
-          other: 0,
-        };
-        return acc;
-      },
-      {} as Record<Month, ChartData>
-    );
+    const monthlyData = getInitialMonthlyData();
 
     projects.forEach(({ created_at, projectType, price }) => {
       const month: Month = new Date(created_at).toLocaleString("en-us", {
@@ -98,19 +120,19 @@ function CompareArea() {
       }
     });
 
-    return Object.values(monthlyData);
+    return sortedMonths.map((month) => monthlyData[month]);
   };
 
   const chartData = isFetched
     ? processData(
-        (projects || []).map((project) => ({
-          created_at: project.created_at,
-          projectType: project.projectType as ProjectType,
-          price: project.price,
+        (projects || []).map(({ created_at, projectType, price }) => ({
+          created_at,
+          projectType: projectType as ProjectType,
+          price,
         }))
       )
     : [];
-
+  console.log(chartData);
   return (
     <Card className=" p-4 space-y-3">
       <CardTitle>Summary</CardTitle>
@@ -145,7 +167,7 @@ function CompareArea() {
             <XAxis dataKey="name" />
             <YAxis />
             <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
+            <Tooltip wrapperStyle={{ color: "#111" }} />
             <Area
               type="monotone"
               dataKey="web_page"

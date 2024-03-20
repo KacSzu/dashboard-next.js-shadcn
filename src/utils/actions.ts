@@ -29,23 +29,28 @@ interface IUsePaginatedProjects {
   currentPage: number;
   sortBy: string;
   filterBy: string;
+  searchQuery?: string;
 }
 export function usePaginatedProjects({
   currentPage,
   sortBy,
   filterBy,
+  searchQuery,
 }: IUsePaginatedProjects) {
   const [field, direction] = sortBy.split("-");
   const [filterField, value] = filterBy.split("-");
+
   const { data, error, isFetched } = useQuery({
-    queryKey: ["projects", currentPage, sortBy, filterBy],
+    queryKey: ["projects", currentPage, sortBy, filterBy, searchQuery],
     queryFn: () =>
       getPaginatedProjects({
         currentPage,
         sortBy: { field, direction },
         filterBy: { filterField, value },
+        searchQuery,
       }),
   });
+
   return { data, error, isFetched };
 }
 export function useLastYearProjects() {

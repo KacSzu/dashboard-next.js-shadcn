@@ -32,11 +32,13 @@ import UpdateProjectModal from "./UpdateProjectModal";
 export default function ProjectsTable() {
   const [sortBy, setSortBy] = useState<string>("created_at-desc");
   const [filterBy, setFilterBy] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { data, isFetched } = usePaginatedProjects({
     currentPage,
     sortBy,
     filterBy,
+    searchQuery,
   });
   const { deleteProject, isPending } = useDeleteProject();
   const projects = data?.data;
@@ -53,11 +55,15 @@ export default function ProjectsTable() {
   const handleResetFilter = () => {
     setFilterBy("");
   };
+  const handleSearchQuery = (companyName: string) => {
+    setSearchQuery(companyName);
+  };
   const isFetching = !isFetched || isPending;
   return (
     <div>
       <div>
         <ProjectsFilter
+          onSearchQueryChange={handleSearchQuery}
           sortBy={sortBy}
           onFilterByChange={handleFilterByChange}
           onSortByChange={handleSortByChange}

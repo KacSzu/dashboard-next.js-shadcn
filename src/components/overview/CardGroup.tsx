@@ -26,30 +26,32 @@ interface ICardGroup {
 function CardGroup({ projects, count }: ICardGroup) {
   const activeProjects =
     projects?.filter((project) => project.status === "active").length ?? 0;
+  const waitingProjects =
+    projects?.filter((project) => project.status === "waiting").length ?? 0;
   const totalEarned = projects?.reduce((acc, curr) => acc + curr.price, 0) ?? 0;
   const CARD_GROUP = [
     {
       title: "Total orders",
-      description: "since 2k22",
+      description: "since 2022",
       content: count,
       icon: <LuBriefcase className="w-6 h-6" />,
     },
     {
       title: "Total earned",
-      description: "total",
+      description: "not bad 🤭",
       content: formatCurrency(totalEarned),
       icon: <LuDollarSign className="w-6 h-6" />,
     },
     {
       title: "Active projects",
-      description: "idk ",
+      description: "get some rest",
       content: activeProjects,
       icon: <LuBarChart4 className="w-6 h-6" />,
     },
     {
-      title: "Total orders",
-      description: "total",
-      content: "424",
+      title: "Waiting projects",
+      description: "zzz...😴",
+      content: waitingProjects,
       icon: <LuBriefcase className="w-6 h-6" />,
     },
   ];
