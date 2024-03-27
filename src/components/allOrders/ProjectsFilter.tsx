@@ -1,5 +1,5 @@
 "use client";
-import ButtonGroup from "../ButtonGroup";
+import ButtonGroup from "../dashboardHeader/ButtonGroup";
 import {
   HiArrowSmallDown,
   HiArrowSmallUp,

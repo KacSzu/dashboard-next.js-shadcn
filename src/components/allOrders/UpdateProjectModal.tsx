@@ -29,7 +29,9 @@ export default function UpdateProjectModal({ project }: IUpdateProjectModal) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <HiOutlinePencilSquare className="  h-5 w-5 cursor-pointer" />
+        <button>
+          <HiOutlinePencilSquare className="  h-5 w-5 cursor-pointer" />
+        </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/utils/utils";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { ReactNode } from "react";
 interface IButtonGroup {
   setActiveTab?: (actitveTab: string) => void;

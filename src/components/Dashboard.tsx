@@ -1,94 +1,45 @@
 "use client";
-import RecentProjects from "./overview/RecentProjects";
-import ButtonGroup from "./ButtonGroup";
-import CardGroup from "./overview/CardGroup";
-import HeroChart from "@/components/overview/HeroChart";
 import { useState } from "react";
-import ProjectsTable from "./allOrders/ProjectsTable";
-import BestMonthCard from "./analythics/BestMonthCard";
-import TypeChart from "./analythics/TypeChart";
-import CompareArea from "./analythics/CompareArea";
-import NewProjectModal from "./dashboardHeader/NewProjectModal";
 import { useProjects } from "@/utils/actions";
 import Loader from "./Loader";
-import WaitingProjectsCard from "./development/WaitingProjectsCard";
-import ActiveProjectsCard from "./development/ActiveProjectsCard";
-
+import { DASHBOARD_NAVIGATION } from "@/utils/constants";
+import OverviewTab from "./overview/OverviewTab";
+import AllOrdersTab from "./allOrders/AllOrdersTab";
+import AnalyticsTab from "./analythics/AnalyticsTab";
+import DevelopmentTab from "./development/DevelopmentTab";
+import DashboardHeader from "./dashboardHeader/DashboardHeader";
+export type Project = {
+  avatar: string;
+  created_at: string;
+  email: string;
+  id: number;
+  name: string;
+  price: number;
+  projectType: string;
+  status: string;
+};
 function Dashboard() {
   const [activeTab, setActiveTab] = useState<string>("overview");
   const { data, isLoading } = useProjects();
   const projects = data?.data;
   const count = data?.count;
-  const HEADER_BUTTONS = [
-    {
-      title: "Overwiev",
-      value: "overview",
-    },
-    {
-      title: "All orders",
-      value: "allOrders",
-    },
-    {
-      title: "Analythics",
-      value: "analythics",
-    },
-    {
-      title: "Development",
-      value: "development",
-    },
-  ];
 
   if (isLoading) return <Loader />;
   return (
-    <div className="shadow-md mx-auto bg-background border border-muted rounded  max-w-5xl h-[680px] ">
+    <div className="shadow-md mx-auto bg-background border border-muted rounded max-w-5xl h-[680px]">
       <div className="flex flex-col gap-4">
-        <header className="mx-[12px] mt-4 flex justify-between">
-          <ButtonGroup
-            activeTab={activeTab}
-            data={HEADER_BUTTONS}
-            setActiveTab={setActiveTab}
-          />
-          <NewProjectModal />
-        </header>
-        <main className=" mx-[12px]">
+        <DashboardHeader
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          data={DASHBOARD_NAVIGATION}
+        />
+        <main className="mx-[12px]">
           {activeTab === "overview" && (
-            <div className="space-y-1">
-              <section>
-                <CardGroup projects={projects} count={count} />
-              </section>
-              <section className="grid grid-cols-12 gap-1 ">
-                <div className="col-span-8 ">
-                  <HeroChart />
-                </div>
-                <div className="col-span-4  ">
-                  <RecentProjects projects={projects?.slice(0, 5)} />
-                </div>
-              </section>
-            </div>
+            <OverviewTab projects={projects} count={count} />
           )}
-          {activeTab === "allOrders" && (
-            <section>
-              <ProjectsTable />
-            </section>
-          )}
-          {activeTab === "analythics" && (
-            <div className="space-y-1">
-              <section className="grid grid-cols-12 gap-1">
-                <TypeChart projects={projects} />
-                <BestMonthCard projects={projects} />
-                <BestMonthCard projects={projects} />
-              </section>
-              <section className="col-span-12">
-                <CompareArea />
-              </section>
-            </div>
-          )}
-          {activeTab === "development" && (
-            <section className="grid grid-cols-12 gap-1 ">
-              <WaitingProjectsCard />
-              <ActiveProjectsCard />
-            </section>
-          )}
+          {activeTab === "allOrders" && <AllOrdersTab />}
+          {activeTab === "analythics" && <AnalyticsTab projects={projects} />}
+          {activeTab === "development" && <DevelopmentTab />}
         </main>
       </div>
     </div>
