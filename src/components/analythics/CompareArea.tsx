@@ -132,7 +132,6 @@ function CompareArea() {
         }))
       )
     : [];
-  console.log(chartData);
   return (
     <Card className=" p-4 space-y-3">
       <CardTitle>Summary</CardTitle>
